@@ -2,7 +2,8 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, type RefObject } from "react";
-import { MathUtils, type PerspectiveCamera } from "three";
+import { MathUtils, Texture, type PerspectiveCamera } from "three";
+import { disposeObject } from "@/three/kit";
 import type { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { buildPavilion } from "@/three/scenes";
 import { HERO_SEQUENCE, TILT_PITCH, TILT_YAW, placeCamera, poseAt } from "@/three/camera";
@@ -108,6 +109,7 @@ function usePointerTilt(enabled: boolean, input: RefObject<Input>, invalidate: (
 function Rig({ quality, onReady, onFail, stageRef }: SceneProps) {
   const { gl, scene, camera, size, invalidate } = useThree();
   const input = useRef<Input>({ stop: 0, px: 0, py: 0, visible: true });
+  const pageActive = useRef(true);
   const state = useRef({ stop: 0, yaw: 0, pitch: 0, frames: 0, mounted: false });
   const composer = useRef<EffectComposer | null>(null);
   const tiltEnabled = useMemo(
@@ -148,7 +150,13 @@ function Rig({ quality, onReady, onFail, stageRef }: SceneProps) {
       st.mounted = false;
       gl.domElement.removeEventListener("webglcontextlost", onLost);
       scene.remove(spec.root);
+      disposeObject(spec.root);
+      const bg = scene.background;
+      if (bg instanceof Texture) bg.dispose();
+      scene.background = null;
+      scene.fog = null;
       scene.environment?.dispose();
+      scene.environment = null;
       composer.current?.dispose();
       composer.current = null;
     };
@@ -167,11 +175,21 @@ function Rig({ quality, onReady, onFail, stageRef }: SceneProps) {
     if (!el) return;
     const io = new IntersectionObserver(([entry]) => {
       input.current.visible = entry.isIntersecting;
-      if (entry.isIntersecting) invalidate();
+      if (entry.isIntersecting && pageActive.current) invalidate();
     });
     io.observe(el);
     return () => io.disconnect();
   }, [stageRef, invalidate]);
+
+  useEffect(() => {
+    const onVisibility = () => {
+      pageActive.current = !document.hidden;
+      if (pageActive.current && input.current.visible) invalidate();
+    };
+    pageActive.current = !document.hidden;
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [invalidate]);
 
   useScrollStops(input, invalidate);
   usePointerTilt(tiltEnabled, input, invalidate);
@@ -179,7 +197,7 @@ function Rig({ quality, onReady, onFail, stageRef }: SceneProps) {
   useFrame((_, delta) => {
     const s = state.current;
     const i = input.current;
-    if (!s.mounted) return;
+    if (!s.mounted || !i.visible || !pageActive.current) return;
     const dt = Math.min(delta, 1 / 20);
     const kStop = 1 - Math.exp(-dt * 3.2);
     const kTilt = 1 - Math.exp(-dt * 2.4);
@@ -206,7 +224,7 @@ function Rig({ quality, onReady, onFail, stageRef }: SceneProps) {
       Math.abs(i.stop - s.stop) > 5e-4 ||
       Math.abs(-i.px * TILT_YAW - s.yaw) > 1e-4 ||
       Math.abs(i.py * TILT_PITCH - s.pitch) > 1e-4;
-    if ((settling || s.frames < 3) && i.visible) invalidate();
+    if ((settling || s.frames < 3) && i.visible && pageActive.current) invalidate();
   }, 1);
 
   return null;
@@ -226,6 +244,7 @@ export default function Scene3D(props: SceneProps) {
       onCreated={({ gl }) => {
         gl.setClearColor("#121416", 1);
       }}
+      onError={() => props.onFail()}
     >
       <Rig {...props} />
     </Canvas>

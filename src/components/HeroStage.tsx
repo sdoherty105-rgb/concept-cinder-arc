@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
 import type { SceneProps, Quality } from "./Scene3D";
+import { Scene3DErrorBoundary } from "./Scene3DErrorBoundary";
 
 type Live = { Scene: ComponentType<SceneProps>; quality: Quality };
 
@@ -121,7 +122,9 @@ export function HeroStage({ children }: { children: ReactNode }) {
       {children}
       {live ? (
         <div className="stage-canvas" aria-hidden="true">
-          <live.Scene quality={live.quality} onReady={() => setReady(true)} onFail={fail} stageRef={stageRef} />
+          <Scene3DErrorBoundary onFail={fail}>
+            <live.Scene quality={live.quality} onReady={() => setReady(true)} onFail={fail} stageRef={stageRef} />
+          </Scene3DErrorBoundary>
         </div>
       ) : null}
       <div className="stage-scrim" aria-hidden="true" />

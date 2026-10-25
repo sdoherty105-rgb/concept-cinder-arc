@@ -258,8 +258,16 @@ export function createDuskEnvironment(renderer: WebGLRenderer, opts: { warm?: nu
 export function disposeObject(root: Group | Scene) {
   root.traverse((obj) => {
     const mesh = obj as Mesh;
-    if (mesh.isMesh) {
-      mesh.geometry.dispose();
+    if (!mesh.isMesh) return;
+    mesh.geometry.dispose();
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    for (const mat of materials) {
+      for (const value of Object.values(mat)) {
+        if (value && typeof value === "object" && "isTexture" in value && (value as Texture).isTexture) {
+          (value as Texture).dispose();
+        }
+      }
+      mat.dispose();
     }
   });
 }

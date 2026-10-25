@@ -148,6 +148,9 @@ main:focus {
   top: 0.5rem;
   left: 0.5rem;
   z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: 0.75rem 1rem;
   background: var(--limestone);
   color: var(--charcoal);
@@ -220,15 +223,6 @@ main:focus {
   text-decoration-color: var(--bronze);
   text-underline-offset: 0.35em;
   min-height: 44px;
-}
-
-.text-link::after {
-  content: "→";
-  transition: transform 0.3s var(--ease);
-}
-
-.text-link:hover::after {
-  transform: translateX(4px);
 }
 
 /* ---------- Buttons ---------- */
@@ -783,12 +777,6 @@ main:focus {
   padding-block: var(--section);
 }
 
-/* Off-screen principles skip first-frame layout and paint, and their fallback figures load only as they near the viewport. */
-.principle {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
-
 .section-tight {
   padding-block: clamp(3rem, 7vw, 6rem);
 }
@@ -1088,7 +1076,7 @@ main:focus {
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--concrete);
+  color: var(--concrete-ink);
 }
 
 .process-step p:last-child {
@@ -1878,7 +1866,7 @@ fieldset[aria-invalid="true"] .choice {
 }
 
 .concept-label-footer {
-  color: var(--limestone);
+  color: var(--muted-dark);
   text-decoration-color: var(--bronze-glow);
 }
 
@@ -1904,16 +1892,4 @@ fieldset[aria-invalid="true"] .choice {
 .section-link {
   margin-top: 2.5rem;
 }
-
-/* Force painting during automated testing to fix Lighthouse contrast bugs */
-html[data-testing="true"] .principle {
-  content-visibility: visible !important;
-}
-
-@media print {
-  .principle {
-    content-visibility: visible !important;
-  }
-}
-
 

@@ -1,4 +1,9 @@
-import { fallbackSrc, srcSet } from "./Picture";
+import { preload } from "react-dom";
+import { fallbackSrc, layoutDimensions, srcSet } from "./Picture";
+
+preload("/images/hero-tall-480.avif", { as: "image", fetchPriority: "high", type: "image/avif" });
+
+const tallLayout = layoutDimensions("hero-tall", 480);
 
 /**
  * The hero's static image: the scene's own first frame, rendered offline
@@ -24,13 +29,13 @@ export function HeroPoster() {
         <source key={`${name}-webp`} media={media} type="image/webp" srcSet={srcSet(name, "webp")} sizes="100vw" />,
       ])}
       <img
-        src={fallbackSrc("hero-tall", 800)}
+        src={fallbackSrc("hero-tall", 480)}
         alt={HERO_ALT}
-        width={1080}
-        height={2340}
+        width={tallLayout.width}
+        height={tallLayout.height}
         fetchPriority="high"
         loading="eager"
-        decoding="async"
+        decoding="sync"
       />
     </picture>
   );

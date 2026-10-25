@@ -9,7 +9,7 @@
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 
-const dir = path.resolve(process.argv[2] ?? "lighthouse-reports/applied");
+const dir = path.resolve(process.argv[2] ?? ".lighthouseci");
 const title = process.argv[3] ?? "Lighthouse (mobile, median of runs)";
 if (!existsSync(dir)) {
   console.log(`No Lighthouse results found in ${dir}.`);

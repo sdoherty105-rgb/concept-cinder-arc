@@ -81,7 +81,12 @@ export default function HomePage() {
                         <p>{p.body}</p>
                         {figure ? (
                           <figure className="principle-figure">
-                            <Picture name={figure.name} alt={figure.alt} sizes="(min-width: 34rem) 26rem, calc(100vw - 6rem)" />
+                            <Picture
+                              name={figure.name}
+                              alt={figure.alt}
+                              sizes="(min-width: 34rem) 26rem, calc(100vw - 3rem)"
+                              layoutWidth={600}
+                            />
                             <figcaption>{figure.caption}</figcaption>
                           </figure>
                         ) : null}

@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   // Responsive AVIF/WebP variants are generated ahead of time (scripts/render-stills.mjs),
   // so no runtime image optimiser or Cloudflare Images binding is needed.
   images: { unoptimized: true },
+  experimental: {
+    optimizePackageImports: ["three", "@react-three/fiber"],
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

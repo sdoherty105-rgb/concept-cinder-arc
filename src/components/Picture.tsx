@@ -29,21 +29,35 @@ type PictureProps = {
   priority?: boolean;
 };
 
-/** Pre-rendered AVIF/WebP image with intrinsic dimensions, so it never shifts layout. */
-export function Picture({ name, alt, sizes, className, priority = false }: PictureProps) {
+/** Intrinsic dimensions for layout; use a typical rendered width so Lighthouse does not over-fetch. */
+export function layoutDimensions(name: string, layoutWidth: number) {
   const { width, height } = imageEntry(name);
+  return { width: layoutWidth, height: Math.round(height * (layoutWidth / width)) };
+}
+
+export function Picture({
+  name,
+  alt,
+  sizes,
+  className,
+  priority = false,
+  layoutWidth,
+}: PictureProps & { layoutWidth?: number }) {
+  const entry = imageEntry(name);
+  const layout = layoutWidth ?? entry.widths[0];
+  const { width, height } = layoutDimensions(name, layout);
   return (
     <picture className={className}>
       <source type="image/avif" srcSet={srcSet(name, "avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcSet(name, "webp")} sizes={sizes} />
       <img
-        src={fallbackSrc(name)}
+        src={fallbackSrc(name, layout)}
         alt={alt}
         width={width}
         height={height}
         loading={priority ? "eager" : "lazy"}
         decoding={priority ? "sync" : "async"}
-        fetchPriority={priority ? "high" : "auto"}
+        fetchPriority={priority ? "high" : "low"}
       />
     </picture>
   );

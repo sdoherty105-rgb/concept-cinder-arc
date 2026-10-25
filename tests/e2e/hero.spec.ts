@@ -40,6 +40,27 @@ test.describe("hero fallbacks", () => {
     await expect(img).toHaveAttribute("alt", /arch/);
   });
 
+  test("WebGL context loss falls back to the static poster", async ({ page }) => {
+    await page.goto("/?webgl=force");
+    const hasWebGL2 = await page.evaluate(() => Boolean(document.createElement("canvas").getContext("webgl2")));
+    test.skip(!hasWebGL2, "WebGL2 unavailable in this browser");
+
+    await page.mouse.move(400, 400);
+    await expect(page.locator(".stage canvas")).toHaveCount(1, { timeout: 15_000 });
+    await expect(page.locator(".stage")).toHaveAttribute("data-ready", "true", { timeout: 30_000 });
+
+    await page.evaluate(() => {
+      const canvas = document.querySelector(".stage canvas") as HTMLCanvasElement | null;
+      const gl = canvas?.getContext("webgl2");
+      const ext = gl?.getExtension("WEBGL_lose_context");
+      ext?.loseContext();
+    });
+    await page.waitForTimeout(500);
+    await expect(page.locator(".stage canvas")).toHaveCount(0);
+    await expect(page.locator(".stage-poster img")).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.dataset.stage)).toBeUndefined();
+  });
+
   test("scrolling is never prevented", async ({ page }) => {
     await page.goto("/?webgl=force");
     await page.mouse.move(300, 300);

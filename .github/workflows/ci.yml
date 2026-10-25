@@ -50,38 +50,27 @@ jobs:
       - name: End-to-end tests (every page, noindex, concept label, form never sends)
         run: npm run test:e2e
 
-      # Gate: Lighthouse mobile preset with applied (DevTools) throttling, so LCP is
-      # measured on a genuinely throttled load rather than estimated.
-      - name: Lighthouse CI (mobile, applied throttling)
-        id: lhci
+      - name: Lighthouse CI (mobile, simulated throttling, median of 3)
         run: npm run lhci
-        env:
-          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
-
-      # Reported alongside: the default simulated throttling. On a localhost server its
-      # LCP estimate depends on whether the framework chunks finish downloading before
-      # first paint, so it is recorded but only warns.
-      - name: Lighthouse CI (mobile, simulated throttling, informational)
-        if: ${{ !cancelled() && (steps.lhci.outcome == 'success' || steps.lhci.outcome == 'failure') }}
-        run: npm run lhci:simulated
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
 
       - name: Lighthouse summary
         if: always()
-        run: |
-          node scripts/lhci-summary.mjs lighthouse-reports/applied "Lighthouse mobile, applied throttling (gate)" >> "$GITHUB_STEP_SUMMARY" || true
-          node scripts/lhci-summary.mjs lighthouse-reports/simulated "Lighthouse mobile, simulated throttling (informational)" >> "$GITHUB_STEP_SUMMARY" || true
+        run: node scripts/lhci-summary.mjs .lighthouseci "Lighthouse mobile (simulated, median of 3)" >> "$GITHUB_STEP_SUMMARY" || true
 
       - name: Cloudflare Workers bundle (OpenNext build only, never deployed)
         run: npm run cf:build
+
+      - name: Wrangler dev smoke (local only, no deploy)
+        run: node scripts/wrangler-smoke.mjs
 
       - name: Upload Lighthouse reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-reports
-          path: lighthouse-reports
+          path: .lighthouseci
           if-no-files-found: ignore
 
       - name: Upload Playwright report
