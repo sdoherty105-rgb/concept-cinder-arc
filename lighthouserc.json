@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "bash -c 'fuser -k 3000/tcp 2>/dev/null || true; npm run start'",
+      "startServerCommand": "bash -c 'fuser -k -9 3000/tcp 2>/dev/null || true; sleep 1; exec npm run start'",
       "startServerReadyPattern": "Ready in|Local:",
       "startServerReadyTimeout": 60000,
       "url": ["http://localhost:3000/", "http://localhost:3000/projects/wilyabrup-pavilion"],

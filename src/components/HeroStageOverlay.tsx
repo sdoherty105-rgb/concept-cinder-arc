@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ComponentType, type RefObject } from "react";
 import type { SceneProps, Quality } from "./Scene3D";
 import { Scene3DErrorBoundary } from "./Scene3DErrorBoundary";
 
@@ -10,11 +10,6 @@ const TRIGGERS = ["pointermove", "pointerdown", "touchstart", "wheel", "scroll",
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/**
- * WebGL2 is required by React Three Fiber. Software renderers are refused via
- * failIfMajorPerformanceCaveat so slow devices keep the static image;
- * `?webgl=force` overrides that for testing on headless browsers.
- */
 function canRender3D() {
   try {
     const force = new URLSearchParams(window.location.search).get("webgl") === "force";
@@ -37,18 +32,21 @@ function pickQuality(): Quality {
 }
 
 /**
- * Sticky backdrop for the opening sections. Always renders the static
- * poster; when motion is allowed and WebGL works it lazy-loads the live
- * scene on first interaction (or, on large fine-pointer screens, once the
- * page is idle) and cross-fades it in over the identical poster frame.
+ * Live WebGL layer and scrim for the sticky stage. The static poster is a
+ * sibling in the DOM so it is not tied to this client bundle for first paint.
  */
-export function HeroStage({ children }: { children: ReactNode }) {
+export function HeroStageOverlay() {
   const [live, setLive] = useState<Live | null>(null);
   const [ready, setReady] = useState(false);
-  const stageRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    stageRef.current = document.querySelector<HTMLDivElement>(".opening .stage");
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
+    const stage = stageRef.current;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let cancelled = false;
     let timer: number | undefined;
@@ -56,6 +54,7 @@ export function HeroStage({ children }: { children: ReactNode }) {
 
     const stop = () => {
       root.removeAttribute("data-stage");
+      stage?.removeAttribute("data-ready");
       setLive(null);
       setReady(false);
     };
@@ -108,26 +107,34 @@ export function HeroStage({ children }: { children: ReactNode }) {
       disarm();
       motion.removeEventListener("change", onMotionChange);
       root.removeAttribute("data-stage");
+      stage?.removeAttribute("data-ready");
     };
   }, []);
 
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (ready) stage.setAttribute("data-ready", "true");
+    else stage.removeAttribute("data-ready");
+  }, [ready]);
+
   const fail = () => {
     document.documentElement.removeAttribute("data-stage");
+    stageRef.current?.removeAttribute("data-ready");
     setLive(null);
     setReady(false);
   };
 
   return (
-    <div className="stage" ref={stageRef} data-ready={ready ? "true" : undefined}>
-      {children}
+    <>
       {live ? (
         <div className="stage-canvas" aria-hidden="true">
           <Scene3DErrorBoundary onFail={fail}>
-            <live.Scene quality={live.quality} onReady={() => setReady(true)} onFail={fail} stageRef={stageRef} />
+            <live.Scene quality={live.quality} onReady={() => setReady(true)} onFail={fail} stageRef={stageRef as RefObject<HTMLDivElement | null>} />
           </Scene3DErrorBoundary>
         </div>
       ) : null}
       <div className="stage-scrim" aria-hidden="true" />
-    </div>
+    </>
   );
 }

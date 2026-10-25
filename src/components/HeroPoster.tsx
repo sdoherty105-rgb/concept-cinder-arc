@@ -1,9 +1,7 @@
-import { preload } from "react-dom";
 import { fallbackSrc, layoutDimensions, srcSet } from "./Picture";
 
-preload("/images/hero-tall-480.avif", { as: "image", fetchPriority: "high", type: "image/avif" });
-
-const tallLayout = layoutDimensions("hero-tall", 480);
+/** Match typical mobile render width (≈100vw) so Lighthouse image-size-responsive passes. */
+const tallLayout = layoutDimensions("hero-tall", 800);
 
 /**
  * The hero's static image: the scene's own first frame, rendered offline
@@ -35,7 +33,7 @@ export function HeroPoster() {
         height={tallLayout.height}
         fetchPriority="high"
         loading="eager"
-        decoding="sync"
+        decoding="async"
       />
     </picture>
   );

@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   experimental: {
     optimizePackageImports: ["three", "@react-three/fiber"],
+    inlineCss: true,
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

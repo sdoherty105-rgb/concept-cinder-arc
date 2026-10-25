@@ -7,6 +7,7 @@ export const display = localFont({
   ],
   variable: "--font-display",
   display: "swap",
+  preload: false,
   fallback: ["Georgia", "Times New Roman", "serif"],
   adjustFontFallback: "Times New Roman",
 });

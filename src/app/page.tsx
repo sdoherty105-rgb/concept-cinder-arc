@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { HeroStage } from "@/components/HeroStage";
 import { HeroPoster } from "@/components/HeroPoster";
+import { HeroStageOverlay } from "@/components/HeroStageOverlay";
 import { Picture } from "@/components/Picture";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -26,9 +26,10 @@ export default function HomePage() {
   return (
     <>
       <div className="opening">
-        <HeroStage>
+        <div className="stage">
           <HeroPoster />
-        </HeroStage>
+          <HeroStageOverlay />
+        </div>
 
         <div className="opening-content">
           <section className="hero" aria-labelledby="hero-title" data-camera-stop="0">

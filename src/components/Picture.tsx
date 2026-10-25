@@ -9,9 +9,10 @@ export function imageEntry(name: string): Entry {
   return entry;
 }
 
-export function srcSet(name: string, format: "avif" | "webp") {
+export function srcSet(name: string, format: "avif" | "webp", minWidth = 0) {
   return imageEntry(name)
-    .widths.map((w) => `/images/${name}-${w}.${format} ${w}w`)
+    .widths.filter((w) => w >= minWidth)
+    .map((w) => `/images/${name}-${w}.${format} ${w}w`)
     .join(", ");
 }
 
@@ -27,6 +28,8 @@ type PictureProps = {
   sizes: string;
   className?: string;
   priority?: boolean;
+  /** When set, omit smaller variants from srcset (for full-bleed hero images). */
+  minSrcWidth?: number;
 };
 
 /** Intrinsic dimensions for layout; use a typical rendered width so Lighthouse does not over-fetch. */
@@ -42,14 +45,15 @@ export function Picture({
   className,
   priority = false,
   layoutWidth,
+  minSrcWidth = 0,
 }: PictureProps & { layoutWidth?: number }) {
   const entry = imageEntry(name);
   const layout = layoutWidth ?? entry.widths[0];
   const { width, height } = layoutDimensions(name, layout);
   return (
     <picture className={className}>
-      <source type="image/avif" srcSet={srcSet(name, "avif")} sizes={sizes} />
-      <source type="image/webp" srcSet={srcSet(name, "webp")} sizes={sizes} />
+      <source type="image/avif" srcSet={srcSet(name, "avif", minSrcWidth)} sizes={sizes} />
+      <source type="image/webp" srcSet={srcSet(name, "webp", minSrcWidth)} sizes={sizes} />
       <img
         src={fallbackSrc(name, layout)}
         alt={alt}

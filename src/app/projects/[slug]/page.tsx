@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { preload } from "react-dom";
 import { getProject, projects } from "@/content/projects";
 import { Picture, fallbackSrc } from "@/components/Picture";
 import { PlanDrawing } from "@/components/PlanDrawing";
@@ -30,8 +31,24 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   const index = projects.findIndex((p) => p.slug === project.slug);
   const next = projects[(index + 1) % projects.length];
 
+  preload(`/images/${project.images.hero.name}-800.avif`, {
+    as: "image",
+    fetchPriority: "high",
+    type: "image/avif",
+  });
+
   return (
     <article className="project-page page-light" aria-labelledby="project-title">
+      <figure className="project-hero">
+        <Picture
+          name={project.images.hero.name}
+          alt={project.images.hero.alt}
+          sizes="100vw"
+          priority
+          layoutWidth={800}
+        />
+      </figure>
+
       <header className="project-header">
         <div className="wrap">
           <nav aria-label="Breadcrumb" className="breadcrumb">
@@ -61,10 +78,6 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           </div>
         </div>
       </header>
-
-      <figure className="project-hero">
-        <Picture name={project.images.hero.name} alt={project.images.hero.alt} sizes="100vw" priority />
-      </figure>
 
       <section className="section section-page section-tight" aria-labelledby="overview-title">
         <div className="wrap project-overview">
