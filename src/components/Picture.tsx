@@ -60,7 +60,7 @@ export function Picture({
         width={width}
         height={height}
         loading={priority ? "eager" : "lazy"}
-        decoding={priority ? "sync" : "async"}
+        decoding="async"
         fetchPriority={priority ? "high" : "low"}
       />
     </picture>
