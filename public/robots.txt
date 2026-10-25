@@ -1,0 +1,3 @@
+# Cinder Arc is a fictional OFF/SHIFT concept site. Please do not index it.
+User-agent: *
+Disallow: /

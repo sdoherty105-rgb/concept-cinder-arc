@@ -1,0 +1,162 @@
+{
+  "cottage-fins": {
+    "width": 1200,
+    "height": 1500,
+    "widths": [
+      600,
+      900,
+      1200
+    ]
+  },
+  "cottage-garden": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "cottage-hero": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "courtyard-court": {
+    "width": 1200,
+    "height": 1500,
+    "widths": [
+      600,
+      900,
+      1200
+    ]
+  },
+  "courtyard-hero": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "courtyard-pergola": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "hero-mid": {
+    "width": 1536,
+    "height": 2048,
+    "widths": [
+      768,
+      1152,
+      1536
+    ]
+  },
+  "hero-square": {
+    "width": 1600,
+    "height": 1500,
+    "widths": [
+      1080,
+      1600
+    ]
+  },
+  "hero-tall": {
+    "width": 1080,
+    "height": 2340,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  "hero-wide": {
+    "width": 2560,
+    "height": 1600,
+    "widths": [
+      1280,
+      1920,
+      2560
+    ]
+  },
+  "interior-hero": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "interior-island": {
+    "width": 1200,
+    "height": 1500,
+    "widths": [
+      600,
+      900,
+      1200
+    ]
+  },
+  "interior-window": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "pavilion-arch": {
+    "width": 1200,
+    "height": 1500,
+    "widths": [
+      600,
+      900,
+      1200
+    ]
+  },
+  "pavilion-fins": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "pavilion-hero": {
+    "width": 2400,
+    "height": 1500,
+    "widths": [
+      800,
+      1280,
+      1920,
+      2400
+    ]
+  },
+  "pavilion-plan": {
+    "width": 1200,
+    "height": 1500,
+    "widths": [
+      600,
+      900,
+      1200
+    ]
+  }
+}

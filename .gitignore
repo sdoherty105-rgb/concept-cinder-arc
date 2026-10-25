@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# next / opennext / wrangler
+.next/
+out/
+.open-next/
+.wrangler/
+.dev.vars*
+cloudflare-env.d.ts
+next-env.d.ts
+*.tsbuildinfo
+
+# testing
+test-results/
+playwright-report/
+blob-report/
+.lighthouseci/
+lighthouse-reports/
+scripts/.render/
+
+# misc
+.DS_Store
+*.log
+.env*
