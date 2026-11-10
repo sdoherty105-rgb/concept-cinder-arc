@@ -79,6 +79,8 @@ test.describe("consultation form (demo only)", () => {
 
   test("shows accessible errors and focuses the summary when invalid", async ({ page }) => {
     await page.goto("/#consultation");
+    // Count only what happens after load (the favicon can arrive late).
+    await page.waitForLoadState("networkidle");
     const requests: Request[] = [];
     page.on("request", (r) => requests.push(r));
 
@@ -98,7 +100,7 @@ test.describe("consultation form (demo only)", () => {
     await page.getByLabel("Email").fill("not-an-email");
     await page.getByRole("button", { name: "Request a consultation" }).click();
     await expect(page.getByLabel("Email")).toHaveAccessibleDescription(/name@example\.com/);
-    expect(requests).toHaveLength(0);
+    expect(requests.map((r) => r.url())).toEqual([]);
   });
 
   test("success state can be reset to a fresh form", async ({ page }) => {

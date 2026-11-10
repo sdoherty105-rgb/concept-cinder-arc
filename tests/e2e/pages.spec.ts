@@ -48,9 +48,11 @@ for (const route of routes) {
       // The footer repeats both links.
       await expect(page.locator(".site-footer [data-concept-return]")).toHaveAttribute("href", CONCEPT_URL);
       await expect(page.locator(".site-footer [data-concept-cta]")).toHaveAttribute("href", STUDIO_CTA_URL);
-      // It stays in view after scrolling, because it lives in the fixed header.
-      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
-      await expect(cta).toBeInViewport();
+      // On wide screens it stays in view after scrolling, in the fixed header.
+      if ((page.viewportSize()?.width ?? 0) >= 960) {
+        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
+        await expect(cta).toBeInViewport();
+      }
     });
 
     test("has no horizontal overflow at 320px", async ({ page }) => {

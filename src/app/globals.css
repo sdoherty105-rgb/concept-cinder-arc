@@ -418,6 +418,27 @@ main:focus {
   }
 }
 
+/* Below 60rem the studio strip scrolls away with the page and only the 60px bar stays
+   fixed, so the header never covers more of a phone screen than the bar itself. */
+@media (max-width: 59.99rem) {
+  @supports (animation-timeline: scroll()) {
+    .site-header {
+      animation: strip-away linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 4.375rem;
+    }
+
+    @keyframes strip-away {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-4.375rem);
+      }
+    }
+  }
+}
+
 .site-bar {
   height: var(--bar-h);
   background-color: rgb(18 20 22 / 0.94);
