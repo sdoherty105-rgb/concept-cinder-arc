@@ -1,6 +1,6 @@
 # concept-cinder-arc
 
-**Cinder Arc** is a fictional architecture and interiors studio in Perth, built as a concept website by OFF/SHIFT Studio. Every page carries the label "An OFF/SHIFT concept — fictional demonstration" and is set to `noindex`.
+**Cinder Arc** is a fictional architecture and interiors studio in Perth, built as a concept website by OFF/SHIFT Studio. Every page opens with the OFF/SHIFT studio strip, which says "Fictional business — a concept site by OFF/SHIFT Studio", links back to the concept page (`https://offshiftstudio.com.au/concepts/cinder-arc`) and offers "Want a website like this?" (`https://offshiftstudio.com.au/?concept=cinder-arc#contact`). The footer repeats both links. Every page is `noindex, nofollow` (meta tag, `X-Robots-Tag` header and `robots.txt`).
 
 The studio, its projects, prices, people and contact details are all invented. The site contains no testimonials, awards, ratings, statistics or client logos.
 
@@ -47,7 +47,7 @@ npm run start          # serve the build on :3000
 npm run lint
 npm run typecheck
 npm run test:unit      # Vitest: contrast tokens, form validation, content rules
-npm run test:e2e       # Playwright: routes, noindex, concept label, form network isolation, hero fallbacks
+npm run test:e2e       # Playwright: routes, noindex, studio strip links, 320px overflow, form network isolation, hero fallbacks
 npm run lhci           # Lighthouse CI, mobile preset
 npm run render:stills  # re-render poster and project stills (writes AVIF/WebP to public/images)
 npm run screens        # capture docs/screens at 390, 768 and 1440px
@@ -58,7 +58,15 @@ CI (`.github/workflows/ci.yml`) runs the following in order: lint, typecheck, un
 
 ## Deployment
 
-This repository is not deployed. Nothing here runs `wrangler deploy` or configures a domain. The intended future address is `cinder-arc.offshiftstudio.com.au`.
+Nothing in this repository deploys. CI (`.github/workflows/ci.yml`) only builds and tests: it runs `opennextjs-cloudflare build` and a local `wrangler dev` smoke test, never `wrangler deploy`, and it holds no Cloudflare credentials. Pushing a branch or opening a pull request therefore cannot change production.
+
+The demo is nonetheless live at <https://cinder-arc.offshiftstudio.com.au> as the Cloudflare Worker `concept-cinder-arc` (OpenNext; responses carry `x-opennext-cache`). It was deployed from outside this repository's CI, so a new version goes live only when someone runs `npm run cf:build && npx wrangler deploy` (or the equivalent) by hand.
+
+| Checked | Live URL serves | How it was checked |
+| --- | --- | --- |
+| 2026-11-10 | `main` at `666d883` (tree identical to `155f262`, the PR #1 head) | The live home page references exactly the same hashed CSS and JS chunks as a local `npm run build` of `main`. |
+
+Branch `redesign/2026-11` (studio strip, LCP fix) is **not** live yet; deploying it is the owner's decision.
 
 ## Assets
 

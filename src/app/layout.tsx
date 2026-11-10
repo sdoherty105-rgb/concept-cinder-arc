@@ -42,13 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-AU" className={`${display.variable} ${body.variable}`}>
       <head>
-        <link
-          rel="preload"
-          href="/images/hero-tall-800.avif"
-          as="image"
-          type="image/avif"
-          fetchPriority="high"
-        />
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>

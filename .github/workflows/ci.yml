@@ -47,7 +47,7 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: End-to-end tests (every page, noindex, concept label, form never sends)
+      - name: End-to-end tests (every page, noindex, studio strip links, form never sends)
         run: npm run test:e2e
 
       - name: Lighthouse CI (mobile, simulated throttling, median of 3)

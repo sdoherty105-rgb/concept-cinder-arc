@@ -13,7 +13,7 @@ test.describe("hero fallbacks", () => {
     // Principle figures stand in for the camera moves.
     await expect(page.locator(".principle-figure").first()).toBeVisible();
     await expect(page.getByTestId("enquiry-form")).toBeVisible();
-    await expect(page.locator("[data-concept-label]").first()).toBeVisible();
+    await expect(page.locator("[data-concept-cta]").first()).toBeVisible();
     await context.close();
   });
 

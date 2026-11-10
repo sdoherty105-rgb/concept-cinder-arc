@@ -7,8 +7,12 @@ export const site = {
   email: "studio@cinderarc.example",
   phone: "0491 570 156",
   phoneHref: "+61491570156",
-  conceptLabel: "An OFF/SHIFT concept — fictional demonstration",
+  /** Studio strip: the same wording and destinations on every OFF/SHIFT concept site. */
+  conceptDisclosure: "Fictional business — a concept site by OFF/SHIFT Studio",
+  conceptReturnLabel: "Back to the concept",
   conceptUrl: "https://offshiftstudio.com.au/concepts/cinder-arc",
+  studioCtaLabel: "Want a website like this?",
+  studioCtaUrl: "https://offshiftstudio.com.au/?concept=cinder-arc#contact",
   demoUrl: "https://cinder-arc.offshiftstudio.com.au",
   description:
     "Cinder Arc is a fictional architecture and interiors studio in Perth, Western Australia, designing calm, light-filled homes, renovations and interiors. An OFF/SHIFT concept website.",

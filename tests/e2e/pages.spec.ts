@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { CONCEPT_LABEL, CONCEPT_URL, routes } from "./routes";
+import { CONCEPT_DISCLOSURE, CONCEPT_URL, STUDIO_CTA_URL, routes } from "./routes";
 
 for (const route of routes) {
   test.describe(`page ${route}`, () => {
@@ -33,15 +33,31 @@ for (const route of routes) {
       expect(content).toMatch(/nofollow/);
     });
 
-    test("shows the concept label, linking to the concept page", async ({ page }) => {
+    test("shows the studio strip: disclosure, return link and enquiry link", async ({ page }) => {
       await page.goto(route);
-      const label = page.locator("[data-concept-label]").first();
-      await expect(label).toBeVisible();
-      await expect(label).toHaveText(CONCEPT_LABEL);
-      await expect(label).toHaveAttribute("href", CONCEPT_URL);
-      // It also stays in view after scrolling, because it lives in the fixed header.
+      const strip = page.locator(".concept-strip");
+      await expect(strip.locator("[data-concept-disclosure]")).toHaveText(CONCEPT_DISCLOSURE);
+      const back = strip.locator("[data-concept-return]");
+      await expect(back).toBeVisible();
+      await expect(back).toHaveAttribute("href", CONCEPT_URL);
+      await expect(back).toHaveAccessibleName("Back to the concept");
+      const cta = strip.locator("[data-concept-cta]");
+      await expect(cta).toBeVisible();
+      await expect(cta).toHaveAttribute("href", STUDIO_CTA_URL);
+      await expect(cta).toHaveAccessibleName("Want a website like this?");
+      // The footer repeats both links.
+      await expect(page.locator(".site-footer [data-concept-return]")).toHaveAttribute("href", CONCEPT_URL);
+      await expect(page.locator(".site-footer [data-concept-cta]")).toHaveAttribute("href", STUDIO_CTA_URL);
+      // It stays in view after scrolling, because it lives in the fixed header.
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
-      await expect(label).toBeInViewport();
+      await expect(cta).toBeInViewport();
+    });
+
+    test("has no horizontal overflow at 320px", async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 640 });
+      await page.goto(route);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      expect(overflow).toBeLessThanOrEqual(0);
     });
 
     test("every image has alt text", async ({ page }) => {
@@ -64,7 +80,7 @@ test("robots.txt disallows everything", async ({ request }) => {
 test("unknown routes return a noindex 404 with the concept label", async ({ page }) => {
   const res = await page.goto("/no-such-page");
   expect(res?.status()).toBe(404);
-  await expect(page.locator("[data-concept-label]").first()).toBeVisible();
+  await expect(page.locator("[data-concept-cta]").first()).toBeVisible();
   // Next.js adds its own robots meta to 404s alongside ours; every one must say noindex.
   const contents = await page.locator('meta[name="robots"]').evaluateAll((els) => els.map((el) => el.getAttribute("content") ?? ""));
   expect(contents.length).toBeGreaterThan(0);
