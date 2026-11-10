@@ -38,6 +38,14 @@ Behaviour once the live scene is running:
 - **Quality tiers.** Phones, coarse pointers and low-memory or low-core devices get the `light` tier: device pixel ratio 1–1.25, a 1024 shadow map, no ambient occlusion and no tilt. Other devices get `standard`: device pixel ratio up to 1.75, a 2048 shadow map and GTAO.
 - **Idle cost.** Rendering is on demand and stops when the hero is off screen.
 
+## Performance notes (mobile LCP)
+
+- The mobile LCP element is the hero lede text, not the poster. In a real (DevTools-throttled) trace, LCP equals FCP, at about 1.1 s unthrottled and 1.8 s with 4x CPU on slow 4G.
+- Lighthouse's simulated LCP is higher because its pessimistic graph counts every request that starts before that paint. That includes about 145 KB gzipped of Next.js/React runtime chunks (fixed framework cost) and the HTML. The recorded 2.69 s warning came from this.
+- `experimental.inlineCss` repeats the stylesheet three times per HTML document (a `<style>` tag plus twice in the RSC payload). An A/B test on 2026-11-10 (5 interleaved runs each) still favoured inlining: median simulated LCP was 2.80 s inline against 3.40 s with an external stylesheet. It stays on.
+- The root layout used to preload `hero-tall-800.avif` on every route. Project pages and desktop visits fetched it without ever showing it, so the preload was removed. The poster `<img>` keeps `fetchpriority="high"`.
+- Local Lighthouse scores swing widely when the machine is busy: watch `benchmarkIndex` in the report. On 2026-11-10 it dropped to about 300–700 with a load average above 400, and TBT swung between 0.4 s and 11 s.
+
 ## Scripts
 
 ```bash
