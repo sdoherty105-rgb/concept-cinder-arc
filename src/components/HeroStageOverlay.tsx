@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ComponentType, type RefObject } from "react";
 import type { SceneProps, Quality } from "./Scene3D";
 import { Scene3DErrorBoundary } from "./Scene3DErrorBoundary";
+import { SunPath } from "./SunPath";
 
 type Live = { Scene: ComponentType<SceneProps>; quality: Quality };
 
@@ -134,7 +135,8 @@ export function HeroStageOverlay() {
           </Scene3DErrorBoundary>
         </div>
       ) : null}
-      <div className="stage-scrim" aria-hidden="true" />
+      <div className="stage-light" aria-hidden="true" />
+      <SunPath />
     </>
   );
 }

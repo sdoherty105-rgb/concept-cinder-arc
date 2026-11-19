@@ -26,7 +26,7 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <Link prefetch={false} href="/#consultation" className="button button-light header-cta">
+          <Link prefetch={false} href="/#consultation" className="header-cta">
             Book a consultation
           </Link>
 

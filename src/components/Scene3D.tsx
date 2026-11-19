@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { MathUtils, Texture, type PerspectiveCamera } from "three";
 import { disposeObject } from "@/three/kit";
 import type { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { buildPavilion } from "@/three/scenes";
+import { buildPavilion, sunAt } from "@/three/scenes";
 import { HERO_SEQUENCE, TILT_PITCH, TILT_YAW, placeCamera, poseAt } from "@/three/camera";
 import { configureRenderer, mountSpec } from "@/three/setup";
 import { createComposer } from "@/three/post";
@@ -191,6 +191,18 @@ function Rig({ quality, onReady, onFail, stageRef }: SceneProps) {
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, [invalidate]);
 
+  // The sun-path control in the hero tells the scene what time of day to light.
+  useEffect(() => {
+    const onSun = (e: Event) => {
+      const t = (e as CustomEvent<{ t: number }>).detail?.t;
+      if (typeof t !== "number") return;
+      spec.sun.position.set(...sunAt(t));
+      if (input.current.visible) invalidate();
+    };
+    window.addEventListener("cinder:sun", onSun);
+    return () => window.removeEventListener("cinder:sun", onSun);
+  }, [spec, input, invalidate]);
+
   useScrollStops(input, invalidate);
   usePointerTilt(tiltEnabled, input, invalidate);
 
@@ -242,7 +254,7 @@ export default function Scene3D(props: SceneProps) {
       camera={{ fov: 32, near: 0.5, far: 400, position: [16, 3.6, 21] }}
       style={{ position: "absolute", inset: 0 }}
       onCreated={({ gl }) => {
-        gl.setClearColor("#121416", 1);
+        gl.setClearColor("#e6eee9", 1);
       }}
       onError={() => props.onFail()}
     >

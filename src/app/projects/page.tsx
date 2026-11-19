@@ -42,7 +42,7 @@ export default function ProjectsPage() {
           <h2 id="projects-cta-title" className="display-2">
             Have a site, a house or a feeling in mind?
           </h2>
-          <Link prefetch={false} href="/#consultation" className="button button-light">
+          <Link prefetch={false} href="/#consultation" className="button">
             Book a consultation
           </Link>
         </div>

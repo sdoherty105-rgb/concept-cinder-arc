@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeroPoster } from "@/components/HeroPoster";
 import { HeroStageOverlay } from "@/components/HeroStageOverlay";
+import { LightIndex } from "@/components/LightIndex";
 import { Picture } from "@/components/Picture";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -10,7 +11,7 @@ import { projects } from "@/content/projects";
 const principleFigures: Record<string, { name: string; alt: string; caption: string } | undefined> = {
   light: {
     name: "pavilion-arch",
-    alt: "Rendered view through a round-headed arch in a concrete wall, framing a narrow slot of warm light in the limestone wall beyond.",
+    alt: "Rendered view through a round-headed arch in a concrete wall, framing a narrow slot of light in the limestone wall beyond.",
     caption: "The slot of light, seen through the arch.",
   },
   proportion: {
@@ -22,6 +23,9 @@ const principleFigures: Record<string, { name: string; alt: string; caption: str
 
 export default function HomePage() {
   const [featured, ...rest] = projects;
+  const lightEntries = [...projects]
+    .sort((a, b) => a.bestLight.t - b.bestLight.t)
+    .map((p) => ({ slug: p.slug, name: p.name, ...p.bestLight }));
 
   return (
     <>
@@ -33,93 +37,70 @@ export default function HomePage() {
 
         <div className="opening-content">
           <section className="hero" aria-labelledby="hero-title" data-camera-stop="0">
-            <div className="wrap hero-inner">
-              <p className="eyebrow eyebrow-dark">Architecture and interiors · Perth, WA</p>
-              <h1 id="hero-title" className="hero-title">
-                <span>Form</span> <span>follows</span> <em>feeling.</em>
-              </h1>
-              <div className="hero-foot">
-                <p className="hero-lede">
-                  We design homes, renovations and interiors around how you want to feel in them: calm in the
-                  morning, open at dusk, held at night. Then we make the form follow.
-                </p>
-                <div className="hero-actions">
-                  <Link prefetch={false} href="#consultation" className="button button-light">
-                    Book a consultation
-                  </Link>
-                  <Link prefetch={false} href="#projects" className="button button-outline-light">
-                    View projects
-                  </Link>
-                </div>
-              </div>
+            <h1 id="hero-title" className="hero-title">
+              Houses drawn by the <span className="hero-sun">sun</span>.
+            </h1>
+            <p className="hero-lede">
+              Cinder Arc designs homes, renovations and interiors in Western Australia. We begin with where the
+              light falls at eight in the morning and at four in the afternoon, and let the rooms follow it.
+            </p>
+            <div className="hero-index">
+              <h2 className="hero-index-title">Our projects, by the hour they look best</h2>
+              <LightIndex entries={lightEntries} />
+              <p className="fiction-note">All projects shown are fictional and were created for this concept.</p>
             </div>
           </section>
 
           <section id="approach" className="approach" aria-labelledby="approach-title">
-            <div className="wrap">
-              <div className="approach-intro">
-                <p className="eyebrow eyebrow-dark">Approach</p>
-                <h2 id="approach-title" className="display-2">
-                  We start with how a home should feel, and design until the building can hold it.
-                </h2>
-              </div>
-              <ol className="principles">
-                {principles.map((p, i) => {
-                  const figure = principleFigures[p.id];
-                  return (
-                    <li key={p.id} className="principle" aria-labelledby={`principle-${p.id}`}>
-                      <div
-                        className="principle-card"
-                        data-camera-stop={p.id === "light" ? 1 : p.id === "proportion" ? 2 : undefined}
-                      >
-                        <p className="principle-number" aria-hidden="true">
-                          {p.number}
-                        </p>
-                        <h3 id={`principle-${p.id}`} className="display-3">
-                          <span className="visually-hidden">Principle {i + 1}: </span>
-                          {p.title}
-                        </h3>
-                        <p>{p.body}</p>
-                        {figure ? (
-                          <figure className="principle-figure">
-                            <Picture
-                              name={figure.name}
-                              alt={figure.alt}
-                              sizes="(min-width: 34rem) 26rem, calc(100vw - 3rem)"
-                              layoutWidth={600}
-                            />
-                            <figcaption>{figure.caption}</figcaption>
-                          </figure>
-                        ) : null}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
+            <h2 id="approach-title" className="display-2">
+              We start with how a home should feel, and design until the building can hold it.
+            </h2>
+            <ul className="principles">
+              {principles.map((p) => {
+                const figure = principleFigures[p.id];
+                return (
+                  <li key={p.id} className="principle" aria-labelledby={`principle-${p.id}`}>
+                    <div
+                      className="principle-card"
+                      data-camera-stop={p.id === "light" ? 1 : p.id === "proportion" ? 2 : undefined}
+                    >
+                      <h3 id={`principle-${p.id}`} className="display-3">
+                        {p.title}
+                      </h3>
+                      <p>{p.body}</p>
+                      {figure ? (
+                        <figure className="principle-figure">
+                          <Picture
+                            name={figure.name}
+                            alt={figure.alt}
+                            sizes="(min-width: 34rem) 26rem, calc(100vw - 3rem)"
+                            layoutWidth={600}
+                          />
+                          <figcaption>{figure.caption}</figcaption>
+                        </figure>
+                      ) : null}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </section>
         </div>
       </div>
 
-      <section id="projects" className="section section-page projects" aria-labelledby="projects-title">
+      <section id="projects" className="section projects" aria-labelledby="projects-title">
         <div className="wrap">
           <header className="section-head">
-            <div>
-              <p className="eyebrow">Selected projects</p>
-              <h2 id="projects-title" className="display-2">
-                Homes shaped around a feeling.
-              </h2>
-            </div>
-            <div className="section-head-aside">
-              <p>
-                A new pavilion, a courtyard house, a cottage renovation and an apartment interior. Each began with
-                a single sentence about how it should feel.
-              </p>
-              <p className="fiction-note">All projects shown are fictional and were created for this concept.</p>
-            </div>
+            <h2 id="projects-title" className="display-2">
+              Homes shaped around a feeling.
+            </h2>
+            <p>
+              A new pavilion, a courtyard house, a cottage renovation and an apartment interior. Each began with a
+              single sentence about how it should feel.
+            </p>
           </header>
 
-          <div className="project-grid">
+          <div className="project-sheet">
             <ProjectCard project={featured} featured />
             {rest.map((p) => (
               <ProjectCard key={p.slug} project={p} />
@@ -128,35 +109,27 @@ export default function HomePage() {
 
           <p className="section-link">
             <Link prefetch={false} href="/projects" className="text-link">
-              View all projects
+              See every project
             </Link>
           </p>
         </div>
       </section>
 
-      <section id="services" className="section section-limestone services" aria-labelledby="services-title">
+      <section id="services" className="section services" aria-labelledby="services-title">
         <div className="wrap">
           <header className="section-head">
-            <div>
-              <p className="eyebrow">Services</p>
-              <h2 id="services-title" className="display-2">
-                Architecture, interiors and renovation, under one roof.
-              </h2>
-            </div>
-            <div className="section-head-aside">
-              <p>
-                Most of our clients use more than one. Designing the building and the rooms inside it together is
-                how the details end up feeling inevitable rather than added on.
-              </p>
-            </div>
+            <h2 id="services-title" className="display-2">
+              Architecture, interiors and renovation, under one roof.
+            </h2>
+            <p>
+              Most of our clients use more than one. Designing the building and the rooms inside it together is how
+              the details end up feeling inevitable rather than added on.
+            </p>
           </header>
 
-          <div className="service-grid">
-            {services.map((s, i) => (
-              <article key={s.id} id={`service-${s.id}`} className="service" aria-labelledby={`service-title-${s.id}`}>
-                <p className="service-number" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
+          <div className="service-boards">
+            {services.map((s) => (
+              <article key={s.id} id={`service-${s.id}`} className={`service service-${s.id}`} aria-labelledby={`service-title-${s.id}`}>
                 <h3 id={`service-title-${s.id}`} className="display-3">
                   {s.title}
                 </h3>
@@ -176,41 +149,32 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="process" className="section section-page process" aria-labelledby="process-title">
+      <section id="process" className="section process" aria-labelledby="process-title">
         <div className="wrap">
           <header className="section-head">
-            <div>
-              <p className="eyebrow">Process</p>
-              <h2 id="process-title" className="display-2">
-                Five steps, one conversation at a time.
-              </h2>
-            </div>
-            <div className="section-head-aside">
-              <p>
-                Every project starts the same way: a paid, unhurried consultation, with no obligation to continue.
-                Timeframes below are typical for a new home.
-              </p>
-            </div>
+            <h2 id="process-title" className="display-2">
+              Five stops between the first visit and the front door.
+            </h2>
+            <p>
+              Every project starts the same way: a paid, unhurried consultation, with no obligation to continue.
+              Timeframes below are typical for a new home.
+            </p>
           </header>
-          <ol className="process-list">
+          <ul className="process-arc">
             {processSteps.map((step) => (
-              <li key={step.number} className="process-step">
-                <p className="process-number" aria-hidden="true">
-                  {step.number}
-                </p>
-                <h3 className="process-title">{step.title}</h3>
+              <li key={step.title} className="process-step">
                 <p className="process-duration">{step.duration}</p>
+                <h3 className="process-title">{step.title}</h3>
                 <p>{step.body}</p>
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
-      <section id="consultation" className="section section-dark consultation" aria-labelledby="consultation-title">
+      <section id="consultation" className="section consultation" aria-labelledby="consultation-title">
         <div className="wrap consultation-grid">
           <div className="consultation-copy">
-            <p className="eyebrow eyebrow-dark">Consultation</p>
             <h2 id="consultation-title" className="display-2">
               Start with a conversation.
             </h2>
@@ -219,11 +183,11 @@ export default function HomePage() {
               consultation at your site or our studio, for a fee of $450 that is credited to your first stage.
             </p>
             <h3 className="consultation-sub">What happens next</h3>
-            <ol className="next-steps">
+            <ul className="next-steps">
               <li>We read your enquiry and reply within two working days.</li>
               <li>We arrange a time to meet, at your site, the studio or on a video call.</li>
               <li>After we meet you receive a short written note with our thoughts and a fee proposal.</li>
-            </ol>
+            </ul>
             <p className="consultation-contact">
               Prefer to talk? Call <a href={`tel:${site.phoneHref}`}>{site.phone}</a> or email{" "}
               <a href={`mailto:${site.email}`}>{site.email}</a>.

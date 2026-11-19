@@ -5,7 +5,7 @@ test.describe("hero fallbacks", () => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.goto("/");
-    await expect(page.locator("h1")).toHaveText(/Form\s+follows\s+feeling\./i);
+    await expect(page.locator("h1")).toHaveText(/Houses\s+drawn\s+by\s+the\s+sun\./i);
     const poster = page.locator(".stage-poster img");
     await expect(poster).toBeVisible();
     expect(await poster.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);

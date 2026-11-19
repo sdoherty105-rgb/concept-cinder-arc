@@ -10,15 +10,16 @@ export function ProjectCard({ project, featured = false }: { project: Project; f
           <Picture
             name={project.images.hero.name}
             alt=""
-            sizes={featured ? "(min-width: 1440px) 1360px, 94vw" : "(min-width: 1024px) 31vw, (min-width: 640px) 47vw, 94vw"}
+            sizes={featured ? "(min-width: 1024px) 62vw, 94vw" : "(min-width: 1024px) 31vw, (min-width: 640px) 47vw, 94vw"}
           />
         </div>
         <div className="project-card-body">
           <h3 className="project-card-title">{project.name}</h3>
           <p className="project-card-meta">
-            {project.location} <span aria-hidden="true">·</span> {project.category}
+            {project.location}, {project.category.toLowerCase()}
           </p>
           <p className="project-card-feeling">{project.feeling}</p>
+          <p className="project-card-light">At its best around {project.bestLight.time}</p>
         </div>
       </Link>
     </article>

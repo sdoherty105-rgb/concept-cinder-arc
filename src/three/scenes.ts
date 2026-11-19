@@ -11,6 +11,7 @@ import {
   PointLight,
   type ColorRepresentation,
 } from "three";
+import { DEFAULT_SUN } from "./sun";
 import { mulberry32 } from "./textures";
 import { archWall, block, createMaterials, finScreen, gable, type Materials, type Quality } from "./kit";
 
@@ -62,6 +63,12 @@ function makeSun(q: Quality, color: ColorRepresentation, intensity: number, pos:
   return sun;
 }
 
+/** Sun position for a point in the day: 0 is 6 am in the east, 1 is 6 pm in the west. */
+export function sunAt(t: number): Vec3 {
+  const a = Math.PI * Math.min(1, Math.max(0, t));
+  return [34 * Math.cos(a), 6 + 24 * Math.sin(a), 14];
+}
+
 function groundPlane(m: Materials, y: number) {
   const ground = new Mesh(new PlaneGeometry(400, 400), m.ground);
   ground.rotation.x = -Math.PI / 2;
@@ -107,7 +114,7 @@ function glazedVolume(m: Materials, min: Vec3, size: Vec3, opts: { glow?: boolea
   g.add(block(m.timber, [x, y, z], [w, 0.05, d]));
   g.add(block(opts.glow ? m.glowSoft : m.plaster, [x + 0.1, y, z + 0.05], [w - 0.2, h, 0.1]));
   if (opts.glow) {
-    const lamp = new PointLight("#f1b77c", 14, 10, 1.6);
+    const lamp = new PointLight("#f6dcae", 3, 10, 1.6);
     lamp.position.set(x + w * 0.55, y + h * 0.7, z + d * 0.45);
     g.add(lamp);
   }
@@ -149,22 +156,22 @@ export function buildPavilion(q: Quality): SceneSpec {
   // A single low bench in bronze on the terrace.
   root.add(block(m.bronzeDark, [4, 0, 1.6], [3.2, 0.42, 0.55]));
 
-  // Low late-afternoon sun raking across the south faces from the west.
-  const sun = makeSun(q, "#ffe2c4", 3.8, [-34, 9, 12], [0, 0, 0], 24);
+  // Afternoon sun high in the west; the sun-path control moves it across the day.
+  const sun = makeSun(q, "#fff1d6", 3.6, sunAt(DEFAULT_SUN), [0, 0, 0], 24);
   root.add(sun, sun.target);
-  root.add(new HemisphereLight("#8e9aa6", "#262422", 0.42));
+  root.add(new HemisphereLight("#b9d3ea", "#cdc8ae", 0.8));
 
   return {
     root,
-    background: new Color("#121416"),
-    sky: ["#0e1012", "#1f2327", "#24262a"],
-    fog: new Fog("#1f2327", 36, 90),
+    background: new Color("#e6eee9"),
+    sky: ["#86b0d2", "#cde0ea", "#eef2e6"],
+    fog: new Fog("#e6eee9", 60, 150),
     sun,
-    exposure: 0.95,
+    exposure: 0.78,
     envWarmth: 1,
-    envIntensity: 0.55,
+    envIntensity: 0.7,
     shots: {
-      hero: { position: [16, 3.6, 21], target: [-5, 2.2, -0.5], fov: 32 },
+      hero: { position: [19, 4.8, 27], target: [0.5, 2.0, -1], fov: 34 },
       arch: { position: [-18.6, 1.8, 17], target: [-6.9, 2.1, -1], fov: 30, portraitShift: -0.4 },
       plan: { position: [-16, 42, 36], target: [0, 0, 0.5], fov: 28, portraitShift: 0 },
       axo: { position: [-22, 54, 48], target: [-1, 0, 1], fov: 28 },
@@ -218,18 +225,19 @@ export function buildCourtyard(q: Quality): SceneSpec {
     root.add(leaf);
   }
 
-  const sun = makeSun(q, "#ffd4a3", 3.2, [-22, 13, 16], [0, 0, 0], 20);
+  const sun = makeSun(q, "#fff1d6", 3.4, [-18, 26, 14], [0, 0, 0], 20);
   root.add(sun, sun.target);
-  root.add(new HemisphereLight("#9aa6b2", "#3b2f25", 0.5));
+  root.add(new HemisphereLight("#b9d3ea", "#cdc8ae", 0.8));
 
   return {
     root,
-    background: new Color("#121416"),
-    fog: new Fog("#121416", 38, 90),
+    background: new Color("#e6eee9"),
+    sky: ["#86b0d2", "#cde0ea", "#eef2e6"],
+    fog: new Fog("#e6eee9", 60, 150),
     sun,
-    exposure: 1.0,
+    exposure: 0.78,
     envWarmth: 1,
-    envIntensity: 0.5,
+    envIntensity: 0.7,
     shots: {
       hero: { position: [21, 15, 25], target: [-0.5, 0.5, -1.5], fov: 30 },
       court: { position: [-0.6, 1.6, 13.5], target: [0.2, 1.7, -4], fov: 40 },
@@ -265,18 +273,19 @@ export function buildCottage(q: Quality): SceneSpec {
   root.add(block(m.limestone, [-1, 0, 2], [10, 0.12, 5]));
   root.add(block(m.limestone, [-9, 0, 7.5], [18, 0.8, 0.4]));
 
-  const sun = makeSun(q, "#ffd8ae", 3.1, [24, 13, 18], [0, 0, 0], 18);
+  const sun = makeSun(q, "#fff1d6", 3.4, [20, 26, 16], [0, 0, 0], 18);
   root.add(sun, sun.target);
-  root.add(new HemisphereLight("#9aa6b2", "#3b2f25", 0.5));
+  root.add(new HemisphereLight("#b9d3ea", "#cdc8ae", 0.8));
 
   return {
     root,
-    background: new Color("#121416"),
-    fog: new Fog("#121416", 34, 80),
+    background: new Color("#e6eee9"),
+    sky: ["#86b0d2", "#cde0ea", "#eef2e6"],
+    fog: new Fog("#e6eee9", 60, 150),
     sun,
-    exposure: 1.0,
+    exposure: 0.78,
     envWarmth: 1,
-    envIntensity: 0.5,
+    envIntensity: 0.7,
     shots: {
       hero: { position: [-17, 7.5, 22], target: [-0.5, 2, -3], fov: 32 },
       fins: { position: [9.5, 1.5, 9], target: [3.4, 1.9, 0.5], fov: 34 },
@@ -319,7 +328,7 @@ export function buildInterior(q: Quality): SceneSpec {
   shade.position.set(1.9, H - 1.32, -1.15);
   shade.castShadow = true;
   root.add(shade);
-  const bulb = new PointLight("#f3bd84", 2.2, 5, 2);
+  const bulb = new PointLight("#f6dcae", 0.8, 5, 2);
   bulb.position.set(1.9, H - 1.48, -1.15);
   root.add(bulb);
 
@@ -328,14 +337,14 @@ export function buildInterior(q: Quality): SceneSpec {
   root.add(block(m.limestone, [-2.8, 0.4, 2.15], [2.6, 0.38, 0.2]));
   root.add(block(m.concrete, [-0.6, 0, 1.6], [0.55, 0.48, 0.55]));
 
-  const sun = makeSun(q, "#ffdcb4", 4.2, [-16, 7.5, 4], [-1, 0, 0], 9);
+  const sun = makeSun(q, "#fff3de", 4.0, [-16, 9, 4], [-1, 0, 0], 9);
   sun.shadow.bias = -0.0005;
   root.add(sun, sun.target);
-  root.add(new HemisphereLight("#d9d4ca", "#6a5a4a", 1.1));
+  root.add(new HemisphereLight("#dbe8ee", "#c9c2ad", 1.15));
 
   return {
     root,
-    background: new Color("#e9e2d6"),
+    background: new Color("#e9eee0"),
     fog: null,
     sun,
     exposure: 1.35,

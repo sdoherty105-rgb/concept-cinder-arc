@@ -13,6 +13,8 @@ export type Project = {
   scope: string;
   size: string;
   feeling: string;
+  /** When in the day the project is at its best, as a clock time and a point on the sun path (0 = 6 am, 1 = 6 pm). */
+  bestLight: { time: string; t: number; note: string };
   summary: string;
   brief: string;
   response: string[];
@@ -30,6 +32,7 @@ export const projects: Project[] = [
     scope: "Architecture, landscape and interiors",
     size: "142 m² internal on a 6 ha vineyard lot",
     feeling: "Arriving somewhere slower.",
+    bestLight: { time: "4:30 pm", t: 0.875, note: "Late sun through the arch." },
     summary:
       "A guest pavilion for a family's vineyard retreat: one glass room under a long concrete roof, a limestone sleeping wing and a free-standing arched wall that frames the late sun.",
     brief:
@@ -47,15 +50,15 @@ export const projects: Project[] = [
     images: {
       hero: {
         name: "pavilion-hero",
-        alt: "Rendered view at dusk of a low pavilion: a concrete wall with a round arch beside a long raised pool, a limestone block with a glowing slot window, and a glass room under a cantilevered concrete roof behind bronze fins.",
+        alt: "Rendered view in afternoon sun of a low pavilion: a concrete wall with a round arch beside a long raised pool, a limestone block with a slot window, and a glass room under a cantilevered concrete roof behind bronze fins.",
       },
       detail: {
         name: "pavilion-arch",
-        alt: "Rendered close view through the round-headed arch in the concrete wall, framing a narrow slot of warm light in the limestone wing beyond.",
+        alt: "Rendered close view through the round-headed arch in the concrete wall, framing a narrow slot of light in the limestone wing beyond.",
       },
       wide: {
         name: "pavilion-fins",
-        alt: "Rendered view under the cantilevered roof: a bronze bench in front of irregularly spaced bronze fins screening a warmly lit glass room.",
+        alt: "Rendered view under the cantilevered roof: a bronze bench in front of irregularly spaced bronze fins screening a glass room.",
       },
     },
     plan: {
@@ -84,6 +87,7 @@ export const projects: Project[] = [
     scope: "Architecture and interiors",
     size: "286 m² internal, single storey",
     feeling: "Private, but never closed in.",
+    bestLight: { time: "11:15 am", t: 0.43, note: "Overhead light in the courtyard." },
     summary:
       "A single-storey family home that wraps three limestone wings around a courtyard pool and an existing olive tree, so every room looks inward to the same piece of sky.",
     brief:
@@ -101,7 +105,7 @@ export const projects: Project[] = [
     images: {
       hero: {
         name: "courtyard-hero",
-        alt: "Rendered aerial view at dusk of a single-storey limestone house wrapped around a courtyard with a pool, an olive tree and a bronze pergola.",
+        alt: "Rendered aerial view in daylight of a single-storey limestone house wrapped around a courtyard with a pool, an olive tree and a bronze pergola.",
       },
       detail: {
         name: "courtyard-court",
@@ -109,7 +113,7 @@ export const projects: Project[] = [
       },
       wide: {
         name: "courtyard-pergola",
-        alt: "Rendered view along the side of the house to the bronze pergola framing the olive tree and the warmly lit glazing.",
+        alt: "Rendered view along the side of the house to the bronze pergola framing the olive tree and the courtyard glazing.",
       },
     },
     plan: {
@@ -137,6 +141,7 @@ export const projects: Project[] = [
     scope: "Renovation, addition and interiors",
     size: "Existing 96 m² cottage plus a 78 m² addition",
     feeling: "The old house, finally at ease.",
+    bestLight: { time: "8:20 am", t: 0.19, note: "Low morning sun through the fins." },
     summary:
       "A 1920s brick cottage kept almost exactly as it was, joined by a glass link to a new board-formed concrete wing for cooking, eating and living, screened by bronze fins.",
     brief:
@@ -154,11 +159,11 @@ export const projects: Project[] = [
     images: {
       hero: {
         name: "cottage-hero",
-        alt: "Rendered view at dusk of a pitched-roof brick cottage joined by a small glass link to a flat-roofed concrete addition screened with bronze fins.",
+        alt: "Rendered view in daylight of a pitched-roof brick cottage joined by a small glass link to a flat-roofed concrete addition screened with bronze fins.",
       },
       detail: {
         name: "cottage-fins",
-        alt: "Rendered close view of the bronze fin screen, with the warmly lit interior visible between the fins.",
+        alt: "Rendered close view of the bronze fin screen, with the interior visible between the fins.",
       },
       wide: {
         name: "cottage-garden",
@@ -190,6 +195,7 @@ export const projects: Project[] = [
     scope: "Interior architecture, joinery and styling",
     size: "118 m² apartment, level 9",
     feeling: "A deep breath, ten floors up.",
+    bestLight: { time: "3:40 pm", t: 0.82, note: "Afternoon sun across the oak." },
     summary:
       "A full interior for a retired couple downsizing from a large family home: one room for living, cooking and reading, in oak, plaster and honed stone, lit by a single deep window.",
     brief:
