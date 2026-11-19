@@ -7,8 +7,12 @@ export const site = {
   email: "studio@cinderarc.example",
   phone: "0491 570 156",
   phoneHref: "+61491570156",
-  conceptLabel: "An OFF/SHIFT concept — fictional demonstration",
+  /** Studio strip: the same wording and destinations on every OFF/SHIFT concept site. */
+  conceptDisclosure: "Fictional business — a concept site by OFF/SHIFT Studio",
+  conceptReturnLabel: "Back to the concept",
   conceptUrl: "https://offshiftstudio.com.au/concepts/cinder-arc",
+  studioCtaLabel: "Want a website like this?",
+  studioCtaUrl: "https://offshiftstudio.com.au/?concept=cinder-arc#contact",
   demoUrl: "https://cinder-arc.offshiftstudio.com.au",
   description:
     "Cinder Arc is a fictional architecture and interiors studio in Perth, Western Australia, designing calm, light-filled homes, renovations and interiors. An OFF/SHIFT concept website.",
@@ -24,19 +28,16 @@ export const nav = [
 export const principles = [
   {
     id: "feeling",
-    number: "01",
     title: "Begin with a feeling, not a floor plan.",
     body: "Before anything is drawn we spend time on how you live: where you want the morning light, which room should feel like a retreat, how the house should sound when it rains. That brief of feelings becomes the test every later decision has to pass.",
   },
   {
     id: "light",
-    number: "02",
     title: "Shape the light.",
     body: "Openings are placed for the light they let in, not only the view. Deep reveals, slots and screens turn hard Western Australian sun into something you can live beside in every season.",
   },
   {
     id: "proportion",
-    number: "03",
     title: "Hold the proportion.",
     body: "Calm is mostly proportion: rooms sized to how they are used, ceilings that lift where you gather and lower where you rest, and a plan you understand the moment you walk in.",
   },
@@ -86,31 +87,26 @@ export const services = [
 
 export const processSteps = [
   {
-    number: "01",
     title: "Consultation",
     duration: "90 minutes",
     body: "We meet at your site or our studio, listen to how you want to live, walk the site and talk honestly about budget. The $450 fee is credited to your first stage.",
   },
   {
-    number: "02",
     title: "Brief and feasibility",
     duration: "2 to 3 weeks",
     body: "A written brief of rooms and feelings, a site and planning analysis, and an early cost check so the ambition and the budget agree before design begins.",
   },
   {
-    number: "03",
     title: "Concept design",
     duration: "4 to 6 weeks",
     body: "Sketches, physical models and rendered views. We test two or three directions with you, then refine one until it feels right.",
   },
   {
-    number: "04",
     title: "Development and approvals",
     duration: "8 to 12 weeks",
     body: "Structure, services, materials and joinery resolved with consultants, and the design lodged for development approval where needed.",
   },
   {
-    number: "05",
     title: "Documentation and build",
     duration: "Through construction",
     body: "Drawings for permit and tender, help choosing a builder, regular site visits, and the final styling the week before you move in.",

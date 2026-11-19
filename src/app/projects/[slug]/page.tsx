@@ -65,14 +65,14 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           <div className="project-header-grid">
             <div>
               <p className="eyebrow">
-                {project.category} <span aria-hidden="true">·</span> {project.location}
+                {project.category} in {project.location}
               </p>
               <h1 id="project-title" className="display-1">
                 {project.name}
               </h1>
             </div>
             <p className="project-feeling">
-              <span className="project-feeling-label">The feeling</span>
+              <span className="project-feeling-label">The feeling we drew from</span>
               <span className="project-feeling-text">{project.feeling}</span>
             </p>
           </div>
@@ -88,6 +88,12 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <p className="project-summary">{project.summary}</p>
           </div>
           <dl className="facts">
+            <div>
+              <dt>At its best</dt>
+              <dd>
+                About {project.bestLight.time}. {project.bestLight.note}
+              </dd>
+            </div>
             <div>
               <dt>Location</dt>
               <dd>{project.location}</dd>
@@ -169,7 +175,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <span className="eyebrow">Next project</span>
             <span className="display-2">{next.name}</span>
             <span className="next-project-meta">
-              {next.location} <span aria-hidden="true">·</span> {next.category}
+              {next.category} in {next.location}
             </span>
           </Link>
         </div>
@@ -180,7 +186,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           <h2 id="project-cta-title" className="display-2">
             Imagine your own home this way.
           </h2>
-          <Link prefetch={false} href="/#consultation" className="button button-light">
+          <Link prefetch={false} href="/#consultation" className="button">
             Book a consultation
           </Link>
         </div>

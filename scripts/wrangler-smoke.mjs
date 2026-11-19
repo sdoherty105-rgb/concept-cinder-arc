@@ -60,6 +60,12 @@ try {
     }
   }
   console.log("wrangler dev smoke: OK", paths.join(", "));
+} catch (error) {
+  console.error(error);
+  process.exitCode = 1;
 } finally {
   shutdown();
+  // wrangler leaves workerd children holding the pipes open, which would keep this process alive.
+  setTimeout(() => process.exit(process.exitCode ?? 0), 500).unref?.();
+  process.exit(process.exitCode ?? 0);
 }

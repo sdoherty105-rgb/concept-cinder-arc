@@ -9,7 +9,7 @@ const allText = JSON.stringify(projects) + readFileSync(path.join(root, "src/con
 
 describe("content rules", () => {
   it("every referenced image exists in every format and width", () => {
-    const names = new Set<string>(["hero-wide", "hero-square", "hero-mid", "hero-tall", "pavilion-plan"]);
+    const names = new Set<string>(["hero-square", "pavilion-plan"]);
     projects.forEach((p) => Object.values(p.images).forEach((img) => names.add(img.name)));
     for (const name of names) {
       const entry = (manifest as Record<string, { widths: number[] }>)[name];

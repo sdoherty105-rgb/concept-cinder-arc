@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { nav, site } from "@/content/site";
-import { ConceptLabel } from "./ConceptLabel";
+import { ConceptLinks } from "./ConceptLinks";
 import { Wordmark } from "./Wordmark";
 
 export function SiteFooter() {
@@ -58,7 +58,7 @@ export function SiteFooter() {
           © {new Date().getFullYear()} Cinder Arc is a fictional studio. Projects, people, prices and contact
           details on this site are invented for demonstration.
         </p>
-        <ConceptLabel className="concept-label-footer" />
+        <ConceptLinks variant="footer" />
       </div>
     </footer>
   );

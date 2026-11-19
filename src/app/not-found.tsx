@@ -11,10 +11,10 @@ export default function NotFound() {
           </h1>
           <p className="page-lede">The page you were looking for doesn&rsquo;t exist or has moved.</p>
           <p className="hero-actions">
-            <Link prefetch={false} href="/" className="button button-dark">
+            <Link prefetch={false} href="/" className="button">
               Back to the home page
             </Link>
-            <Link prefetch={false} href="/projects" className="button button-outline-dark">
+            <Link prefetch={false} href="/projects" className="text-link">
               See projects
             </Link>
           </p>

@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — Form follows feeling`,
     description: site.description,
-    images: [{ url: "/images/hero-wide-1280.webp", width: 1280, height: 800, alt: "Cinder Arc pavilion at dusk" }],
+    images: [{ url: "/images/hero-square-1080.webp", width: 1080, height: 1012, alt: "Cinder Arc pavilion in afternoon sun" }],
     locale: "en_AU",
   },
   formatDetection: { telephone: false, email: false, address: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#121416",
+  themeColor: "#eef1e2",
   colorScheme: "light",
 };
 
@@ -42,13 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-AU" className={`${display.variable} ${body.variable}`}>
       <head>
-        <link
-          rel="preload"
-          href="/images/hero-tall-800.avif"
-          as="image"
-          type="image/avif"
-          fetchPriority="high"
-        />
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>

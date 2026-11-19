@@ -26,11 +26,8 @@ const PREVIEW = process.env.PREVIEW === "1";
 const SS = PREVIEW ? 0.4 : 1.5;
 
 const jobs = [
-  // Hero fallback posters, one per composition breakpoint used by the live scene.
-  { name: "hero-wide", variant: "pavilion", shot: "hero", framed: true, quality: "standard", w: 2560, h: 1600, widths: [1280, 1920, 2560] },
-  { name: "hero-square", variant: "pavilion", shot: "hero", framed: true, quality: "standard", w: 1600, h: 1500, widths: [1080, 1600] },
-  { name: "hero-mid", variant: "pavilion", shot: "hero", framed: true, quality: "light", w: 1536, h: 2048, widths: [768, 1152, 1536] },
-  { name: "hero-tall", variant: "pavilion", shot: "hero", framed: true, quality: "light", w: 1080, h: 2340, widths: [480, 800, 1080] },
+  // Hero fallback poster: the render pane is close to square at every breakpoint.
+  { name: "hero-square", variant: "pavilion", shot: "hero", framed: true, quality: "standard", w: 1600, h: 1500, widths: [640, 1080, 1600] },
 
   { name: "pavilion-hero", variant: "pavilion", shot: "hero", w: 2400, h: 1500, widths: [800, 1280, 1920, 2400] },
   { name: "pavilion-arch", variant: "pavilion", shot: "arch", w: 1200, h: 1500, widths: [600, 900, 1200] },

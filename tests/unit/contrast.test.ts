@@ -10,35 +10,47 @@ const token = (name: string) => {
   return m[1];
 };
 
-const page = token("page");
-const charcoal = token("charcoal");
-const limestone = token("limestone");
+const wash = token("wash");
+const paper = token("paper");
+const lime = token("lime");
+const sky = token("sky");
+const sunWash = token("sun-wash");
+const sun = token("sun");
+const ink = token("ink");
 
 /** Every text/background pairing the stylesheet uses for normal-size text (AA: 4.5:1). */
 const textPairs: Array<[string, string, string]> = [
-  ["charcoal on page", token("charcoal"), page],
-  ["concrete on page", token("concrete"), page],
-  ["bronze-ink on page", token("bronze-ink"), page],
-  ["charcoal on limestone", charcoal, limestone],
-  ["concrete-ink on limestone", token("concrete-ink"), limestone],
-  ["bronze-ink on limestone", token("bronze-ink"), limestone],
-  ["limestone on charcoal", limestone, charcoal],
-  ["muted-dark on charcoal", token("muted-dark"), charcoal],
-  ["bronze-glow on charcoal", token("bronze-glow"), charcoal],
-  ["error-dark on charcoal", token("error-dark"), charcoal],
-  ["charcoal on bronze-glow (demo tag)", charcoal, token("bronze-glow")],
-  ["charcoal on limestone button", charcoal, limestone],
-  ["page on charcoal button", page, charcoal],
+  ["ink on wash", ink, wash],
+  ["ink on paper", ink, paper],
+  ["ink on lime", ink, lime],
+  ["ink on sky", ink, sky],
+  ["ink on sun wash", ink, sunWash],
+  ["ink on sun (concept notice, tags)", ink, sun],
+  ["ink-soft on wash", token("ink-soft"), wash],
+  ["ink-soft on paper", token("ink-soft"), paper],
+  ["ink-soft on lime", token("ink-soft"), lime],
+  ["ink-soft on sky", token("ink-soft"), sky],
+  ["ink-soft on sun wash", token("ink-soft"), sunWash],
+  ["sun-ink on paper", token("sun-ink"), paper],
+  ["sun-ink on wash", token("sun-ink"), wash],
+  ["sun-ink on sun wash", token("sun-ink"), sunWash],
+  ["sun-ink on lime", token("sun-ink"), lime],
+  ["link on wash", token("link"), wash],
+  ["link on paper", token("link"), paper],
+  ["link on lime", token("link"), lime],
+  ["link on sky", token("link"), sky],
+  ["link on sun wash", token("link"), sunWash],
+  ["error on paper", token("error"), paper],
+  ["paper on ink (buttons)", paper, ink],
 ];
 
-/** Large display text and non-text UI (borders, focus rings, icons) need 3:1. */
-const largeOrUiPairs: Array<[string, string, string]> = [
-  ["bronze display text on page", token("bronze"), page],
-  ["bronze rules on charcoal", token("bronze"), charcoal],
-  ["field border on charcoal", token("field-border-dark"), charcoal],
-  ["focus ring bronze-glow on charcoal", token("bronze-glow"), charcoal],
-  ["focus ring charcoal on page", charcoal, page],
-  ["focus ring charcoal on limestone", charcoal, limestone],
+/** Non-text UI (field borders, focus rings) needs 3:1. */
+const uiPairs: Array<[string, string, string]> = [
+  ["field border on paper", token("field-border"), paper],
+  ["focus ring on wash", token("focus"), wash],
+  ["focus ring on paper", token("focus"), paper],
+  ["focus ring on lime", token("focus"), lime],
+  ["focus ring on sun", token("focus"), sun],
 ];
 
 describe("palette contrast (WCAG 2.2 AA)", () => {
@@ -46,17 +58,13 @@ describe("palette contrast (WCAG 2.2 AA)", () => {
     expect(contrast(fg, bg)).toBeGreaterThanOrEqual(4.5);
   });
 
-  it.each(largeOrUiPairs)("%s meets 3:1", (_, fg, bg) => {
+  it.each(uiPairs)("%s meets 3:1", (_, fg, bg) => {
     expect(contrast(fg, bg)).toBeGreaterThanOrEqual(3);
   });
 
-  it("keeps the brand palette exactly as specified", () => {
-    expect([token("charcoal"), token("limestone"), token("concrete"), token("bronze"), token("page")]).toEqual([
-      "#121416",
-      "#ddd4c6",
-      "#59616a",
-      "#927457",
-      "#f2f0eb",
-    ]);
+  it("keeps clear of the OFF/SHIFT studio colours", () => {
+    const studio = ["#0f1114", "#c9b89c", "#f4f1ec"];
+    const used = css.match(/#[0-9a-fA-F]{6}\b/g)?.map((h) => h.toLowerCase()) ?? [];
+    for (const hex of studio) expect(used).not.toContain(hex);
   });
 });

@@ -20,24 +20,23 @@ export type Framing = {
 };
 
 /**
- * Composition per aspect ratio. On landscape screens the headline sits
- * bottom-left, so the building moves right; on portrait screens the copy
- * sits low, so the building moves up and the camera pulls back to keep the
- * whole form in a narrow frame.
+ * Composition per aspect ratio. The render sits in its own pane beside (or
+ * above) the copy rather than behind it, so the building stays centred in the
+ * pane and only the camera distance and field of view adapt to its shape.
  */
 export function framingFor(aspect: number): Framing {
   if (aspect >= 1.25) {
-    return { distance: 1, shiftX: 0.19, shiftY: 0.07, fovScale: 1, yaw: 0 };
+    return { distance: 1, shiftX: 0, shiftY: 0, fovScale: 1, yaw: 0 };
   }
   if (aspect >= 0.9) {
-    return { distance: 1.08, shiftX: 0.06, shiftY: 0.08, fovScale: 1.05, yaw: 0 };
+    return { distance: 1.12, shiftX: 0, shiftY: 0.02, fovScale: 1.06, yaw: 0 };
   }
   const t = MathUtils.clamp((0.9 - aspect) / 0.45, 0, 1);
   return {
     distance: MathUtils.lerp(1.08, 1.05, t),
-    shiftX: MathUtils.lerp(0.12, 0.24, t),
-    shiftY: MathUtils.lerp(0.17, 0.25, t),
-    fovScale: MathUtils.lerp(1.15, 1.32, t),
+    shiftX: 0,
+    shiftY: MathUtils.lerp(0.03, 0.06, t),
+    fovScale: MathUtils.lerp(1.12, 1.3, t),
     yaw: 0,
   };
 }

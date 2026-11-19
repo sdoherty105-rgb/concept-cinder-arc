@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { nav } from "@/content/site";
-import { ConceptLabel } from "./ConceptLabel";
+import { ConceptLinks } from "./ConceptLinks";
 import { Wordmark } from "./Wordmark";
 import { MenuEnhancer } from "./MenuEnhancer";
 
@@ -8,7 +8,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="concept-strip">
-        <ConceptLabel />
+        <ConceptLinks variant="strip" />
       </div>
       <div className="site-bar">
         <div className="site-bar-inner wrap">
@@ -26,7 +26,7 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <Link prefetch={false} href="/#consultation" className="button button-light header-cta">
+          <Link prefetch={false} href="/#consultation" className="header-cta">
             Book a consultation
           </Link>
 

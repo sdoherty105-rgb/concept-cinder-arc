@@ -115,7 +115,7 @@ export function EnquiryForm() {
           On a live Cinder Arc site this is where you would be told when to expect a reply and how the first
           consultation works.
         </p>
-        <button type="button" className="button button-outline-light" onClick={reset}>
+        <button type="button" className="button button-quiet" onClick={reset}>
           Start a new enquiry
         </button>
       </div>
@@ -316,7 +316,7 @@ export function EnquiryForm() {
       </div>
 
       <div className="form-actions">
-        <button type="submit" className="button button-light">
+        <button type="submit" className="button">
           Request a consultation
         </button>
         <p className="form-small">Demo only. Submitting shows a confirmation; no data is sent.</p>

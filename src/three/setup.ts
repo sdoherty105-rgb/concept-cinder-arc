@@ -6,7 +6,7 @@ import {
   type Scene,
   type WebGLRenderer,
 } from "three";
-import { createDuskEnvironment, type Quality } from "./kit";
+import { createDayEnvironment, type Quality } from "./kit";
 import type { SceneSpec } from "./scenes";
 
 export function configureRenderer(renderer: WebGLRenderer, spec: SceneSpec, quality: Quality) {
@@ -19,7 +19,7 @@ export function configureRenderer(renderer: WebGLRenderer, spec: SceneSpec, qual
   void quality;
 }
 
-/** Screen-space vertical gradient: dark zenith easing into a lifted horizon. */
+/** Screen-space vertical gradient: clear zenith easing into a pale horizon haze. */
 function skyGradient(stops: [string, string, string]) {
   const canvas = document.createElement("canvas");
   canvas.width = 2;
@@ -40,7 +40,7 @@ function skyGradient(stops: [string, string, string]) {
 export function mountSpec(scene: Scene, spec: SceneSpec, renderer: WebGLRenderer) {
   scene.background = spec.sky ? skyGradient(spec.sky) : spec.background;
   scene.fog = spec.fog;
-  scene.environment = createDuskEnvironment(renderer, { warm: spec.envWarmth });
+  scene.environment = createDayEnvironment(renderer, { warm: spec.envWarmth });
   scene.environmentIntensity = spec.envIntensity;
   scene.add(spec.root);
 }

@@ -1,20 +1,19 @@
 import localFont from "next/font/local";
 
+/** Urbanist: a light, open geometric face with the airy, drawn quality of architectural lettering. */
 export const display = localFont({
-  src: [
-    { path: "../fonts/instrument-serif-latin-400-normal.woff2", weight: "400", style: "normal" },
-    { path: "../fonts/instrument-serif-latin-400-italic.woff2", weight: "400", style: "italic" },
-  ],
+  src: "../fonts/urbanist-latin-wght-normal.woff2",
+  weight: "100 900",
+  style: "normal",
   variable: "--font-display",
-  display: "optional",
-  preload: false,
-  fallback: ["Georgia", "Times New Roman", "serif"],
-  adjustFontFallback: "Times New Roman",
+  display: "swap",
+  fallback: ["Century Gothic", "Avenir Next", "Trebuchet MS", "sans-serif"],
+  adjustFontFallback: "Arial",
 });
 
 export const body = localFont({
-  src: "../fonts/geist-latin-wght-normal.woff2",
-  weight: "400 700",
+  src: "../fonts/public-sans-latin-wght-normal.woff2",
+  weight: "100 900",
   style: "normal",
   variable: "--font-body",
   display: "swap",
