@@ -1769,3 +1769,21 @@ html:not([data-js]) .light-time {
     transform: none;
   }
 }
+
+/* Quiet studio credit: the canonical wordmark, unaltered, on the lime footer. */
+.footer-credit {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+}
+
+.footer-credit a {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.footer-credit img {
+  width: 5.5rem;
+  height: auto;
+}

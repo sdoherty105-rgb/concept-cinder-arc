@@ -28,18 +28,18 @@ export const nav = [
 export const principles = [
   {
     id: "feeling",
-    title: "Begin with a feeling, not a floor plan.",
+    title: "Begin with a feeling before the floor plan.",
     body: "Before anything is drawn we spend time on how you live: where you want the morning light, which room should feel like a retreat, how the house should sound when it rains. That brief of feelings becomes the test every later decision has to pass.",
   },
   {
     id: "light",
-    title: "Shape the light.",
-    body: "Openings are placed for the light they let in, not only the view. Deep reveals, slots and screens turn hard Western Australian sun into something you can live beside in every season.",
+    title: "Place every opening for the light it lets in.",
+    body: "Deep reveals, slots and screens turn hard Western Australian sun into something you can live beside in every season.",
   },
   {
     id: "proportion",
-    title: "Hold the proportion.",
-    body: "Calm is mostly proportion: rooms sized to how they are used, ceilings that lift where you gather and lower where you rest, and a plan you understand the moment you walk in.",
+    title: "Size each room for how it is used.",
+    body: "Calm is mostly proportion. Ceilings lift where you gather and lower where you rest, and the plan makes sense the moment you walk in.",
   },
 ] as const;
 

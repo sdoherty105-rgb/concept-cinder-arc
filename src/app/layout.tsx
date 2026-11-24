@@ -8,8 +8,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(site.demoUrl),
   title: {
-    default: `${site.name} — Architecture and interiors, Perth`,
-    template: `%s — ${site.name}`,
+    default: `${site.name}: architecture and interiors, Perth`,
+    template: `%s | ${site.name}`,
   },
   description: site.description,
   applicationName: site.name,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — Form follows feeling`,
+    title: `${site.name}: architecture and interiors in Western Australia`,
     description: site.description,
     images: [{ url: "/images/hero-square-1080.webp", width: 1080, height: 1012, alt: "Cinder Arc pavilion in afternoon sun" }],
     locale: "en_AU",

@@ -99,3 +99,12 @@ test("project cards link to every project page", async ({ page }) => {
   await expect(page).toHaveURL(/\/projects\/wilyabrup-pavilion$/);
   await expect(page.locator("h1")).toHaveText("Wilyabrup Pavilion");
 });
+
+test("footer credits OFF/SHIFT Studio with a link home and the canonical wordmark", async ({ page }) => {
+  await page.goto("/");
+  const credit = page.locator(".site-footer [data-footer-credit] a");
+  await expect(credit).toHaveAttribute("href", "https://offshiftstudio.com.au");
+  await expect(credit).toHaveAttribute("rel", "noopener");
+  await expect(credit.locator("img")).toHaveAttribute("alt", "OFF/SHIFT Studio");
+  await expect(credit.locator("img")).toHaveAttribute("src", "/brand/offshift-wordmark-dark.svg");
+});
