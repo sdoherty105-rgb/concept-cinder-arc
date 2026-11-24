@@ -14,6 +14,13 @@ export function SiteFooter() {
           <p className="footer-statement">
             Architecture and interiors for homes that are shaped around how they feel to live in.
           </p>
+          <p className="footer-credit" data-footer-credit>
+            <span>Designed by</span>
+            <a href="https://offshiftstudio.com.au" rel="noopener">
+              {/* eslint-disable-next-line @next/next/no-img-element -- canonical SVG, served unaltered */}
+              <img src="/brand/offshift-wordmark-dark.svg" alt="OFF/SHIFT Studio" width={88} height={24} />
+            </a>
+          </p>
         </div>
 
         <div className="footer-col">
@@ -59,13 +66,6 @@ export function SiteFooter() {
           details on this site are invented for demonstration.
         </p>
         <ConceptLinks variant="footer" />
-        <p className="footer-credit" data-footer-credit>
-          <span>Designed by</span>
-          <a href="https://offshiftstudio.com.au" rel="noopener">
-            {/* eslint-disable-next-line @next/next/no-img-element -- canonical SVG, served unaltered */}
-            <img src="/brand/offshift-wordmark-dark.svg" alt="OFF/SHIFT Studio" width={88} height={24} />
-          </a>
-        </p>
       </div>
     </footer>
   );

@@ -1772,6 +1772,7 @@ html:not([data-js]) .light-time {
 
 /* Quiet studio credit: the canonical wordmark, unaltered, on the lime footer. */
 .footer-credit {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;
