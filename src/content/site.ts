@@ -28,13 +28,13 @@ export const nav = [
 export const principles = [
   {
     id: "feeling",
-    title: "Begin with a feeling before the floor plan.",
+    title: "Begin with a feeling first.",
     body: "Before anything is drawn we spend time on how you live: where you want the morning light, which room should feel like a retreat, how the house should sound when it rains. That brief of feelings becomes the test every later decision has to pass.",
   },
   {
     id: "light",
     title: "Let light set the openings.",
-    body: "Deep reveals, slots and screens turn hard Western Australian sun into something you can live beside in every season.",
+    body: "Each opening is placed for the light it lets in as well as the view. Deep reveals, slots and screens turn hard Western Australian sun into something you can live beside in every season.",
   },
   {
     id: "proportion",

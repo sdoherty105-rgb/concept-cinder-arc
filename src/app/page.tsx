@@ -123,7 +123,7 @@ export default function HomePage() {
             </h2>
             <p>
               Most of our clients use more than one. Designing the building and the rooms inside it together is how
-              the details end up belonging to the house.
+              the details end up fitting the house from the first sketch.
             </p>
           </header>
 
