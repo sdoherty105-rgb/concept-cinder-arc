@@ -33,12 +33,12 @@ export const principles = [
   },
   {
     id: "light",
-    title: "Place every opening for the light it lets in.",
+    title: "Let light set the openings.",
     body: "Deep reveals, slots and screens turn hard Western Australian sun into something you can live beside in every season.",
   },
   {
     id: "proportion",
-    title: "Size each room for how it is used.",
+    title: "Size rooms for their use.",
     body: "Calm is mostly proportion. Ceilings lift where you gather and lower where you rest, and the plan makes sense the moment you walk in.",
   },
 ] as const;
