@@ -8,7 +8,7 @@ export const site = {
   phone: "0491 570 156",
   phoneHref: "+61491570156",
   /** Studio strip: the same wording and destinations on every OFF/SHIFT concept site. */
-  conceptDisclosure: "Fictional business — a concept site by OFF/SHIFT Studio",
+  conceptDisclosure: "Fictional concept by OFF/SHIFT Studio",
   conceptReturnLabel: "Back to the concept",
   conceptUrl: "https://offshiftstudio.com.au/concepts/cinder-arc",
   studioCtaLabel: "Want a website like this?",
