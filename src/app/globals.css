@@ -269,40 +269,43 @@ main:focus {
 .concept-links-strip {
   width: min(100% - 2 * var(--gutter), 90rem);
   margin-inline: auto;
-  flex-wrap: nowrap;
-  gap: 0 0.5rem;
-  max-height: 3rem;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 0.1rem 0.65rem;
+  max-height: none;
 }
 
 .concept-disclosure {
   margin: 0;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  flex: 1 1 auto;
-}
-
-.concept-link-back,
-.concept-links-strip .concept-cta {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  padding: 0.2rem 0;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  white-space: nowrap;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  flex: 1 1 12rem;
+  min-width: min(100%, 12rem);
 }
 
 .concept-link-back {
-  color: inherit;
-  font-weight: 500;
+  display: none;
 }
 
 .concept-links-strip .concept-cta {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 2.75rem;
+  padding: 0.15rem 0;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--link);
+  white-space: nowrap;
+}
+
+@media (max-width: 26.875rem) {
+  .concept-disclosure,
+  .concept-links-strip .concept-cta {
+    flex: 1 1 100%;
+  }
 }
 
 .concept-actions {
@@ -332,11 +335,26 @@ main:focus {
   .concept-links-strip {
     flex-wrap: wrap;
     justify-content: space-between;
-    max-height: none;
     gap: 0.15rem 1.25rem;
   }
 
-  .concept-link-back,
+  .concept-disclosure {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .concept-link-back {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    min-height: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: 500;
+    color: inherit;
+    white-space: nowrap;
+  }
+
   .concept-links-strip .concept-cta {
     min-height: 0;
     padding: 0;
