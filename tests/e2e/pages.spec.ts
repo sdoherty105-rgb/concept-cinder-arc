@@ -36,20 +36,32 @@ for (const route of routes) {
     test("shows the studio strip: disclosure, return link and enquiry link", async ({ page }) => {
       await page.goto(route);
       const strip = page.locator(".concept-strip");
+      const width = page.viewportSize()?.width ?? 0;
       await expect(strip.locator("[data-concept-disclosure]")).toHaveText(CONCEPT_DISCLOSURE);
+      if (width >= 360 && width <= 430) {
+        await expect(strip.locator("[data-concept-disclosure]")).toBeVisible();
+        const box = await strip.locator("[data-concept-disclosure]").boundingBox();
+        expect(box?.width ?? 0).toBeGreaterThan(200);
+      }
       const back = strip.locator("[data-concept-return]");
-      await expect(back).toBeVisible();
-      await expect(back).toHaveAttribute("href", CONCEPT_URL);
-      await expect(back).toHaveAccessibleName("Back to the concept");
+      const footerBack = page.locator(".site-footer [data-concept-return]");
       const cta = strip.locator("[data-concept-cta]");
       await expect(cta).toBeVisible();
       await expect(cta).toHaveAttribute("href", STUDIO_CTA_URL);
       await expect(cta).toHaveAccessibleName("Want a website like this?");
-      // The footer repeats both links.
+      if (width >= 960) {
+        await expect(back).toBeVisible();
+        await expect(back).toHaveAttribute("href", CONCEPT_URL);
+        await expect(back).toHaveAccessibleName("Back to the concept");
+      } else {
+        await expect(back).toBeHidden();
+        await expect(footerBack).toBeVisible();
+        await expect(footerBack).toHaveAttribute("href", CONCEPT_URL);
+        await expect(footerBack).toHaveAccessibleName("Back to the concept");
+      }
       await expect(page.locator(".site-footer [data-concept-return]")).toHaveAttribute("href", CONCEPT_URL);
       await expect(page.locator(".site-footer [data-concept-cta]")).toHaveAttribute("href", STUDIO_CTA_URL);
-      // On wide screens it stays in view after scrolling, in the fixed header.
-      if ((page.viewportSize()?.width ?? 0) >= 960) {
+      if (width >= 960) {
         await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
         await expect(cta).toBeInViewport();
       }

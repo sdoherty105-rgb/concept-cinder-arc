@@ -8,6 +8,24 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { principles, processSteps, services, site } from "@/content/site";
 import { projects } from "@/content/projects";
 
+const serviceFigures: Record<string, { name: string; alt: string; hour: string }> = {
+  architecture: {
+    name: "pavilion-hero",
+    alt: "The Wilyabrup Pavilion in clear morning light along its long concrete roof line.",
+    hour: "7:00 am",
+  },
+  interiors: {
+    name: "interior-hero",
+    alt: "The Fremantle apartment kitchen with soft midday light across limestone and timber.",
+    hour: "12:00 pm",
+  },
+  renovation: {
+    name: "cottage-hero",
+    alt: "The Cottesloe cottage front garden in warm late-afternoon sun.",
+    hour: "3:30 pm",
+  },
+};
+
 const principleFigures: Record<string, { name: string; alt: string; caption: string } | undefined> = {
   light: {
     name: "pavilion-arch",
@@ -37,13 +55,15 @@ export default function HomePage() {
 
         <div className="opening-content">
           <section className="hero" aria-labelledby="hero-title" data-camera-stop="0">
-            <h1 id="hero-title" className="hero-title">
-              Houses drawn by the <span className="hero-sun">sun</span>.
-            </h1>
-            <p className="hero-lede">
-              Cinder Arc designs homes, renovations and interiors in Western Australia. We begin with where the
-              light falls at eight in the morning and at four in the afternoon, and let the rooms follow it.
-            </p>
+            <div className="hero-pitch">
+              <h1 id="hero-title" className="hero-title">
+                Houses drawn by the <span className="hero-sun">sun</span>.
+              </h1>
+              <p className="hero-lede">
+                Cinder Arc designs homes, renovations and interiors in Western Australia. We begin with where the
+                light falls at eight in the morning and at four in the afternoon, and let the rooms follow it.
+              </p>
+            </div>
             <div className="hero-index">
               <h2 className="hero-index-title">Our projects, by the hour they look best</h2>
               <LightIndex entries={lightEntries} />
@@ -127,25 +147,51 @@ export default function HomePage() {
             </p>
           </header>
 
-          <div className="service-boards">
-            {services.map((s) => (
-              <article key={s.id} id={`service-${s.id}`} className={`service service-${s.id}`} aria-labelledby={`service-title-${s.id}`}>
-                <h3 id={`service-title-${s.id}`} className="display-3">
-                  {s.title}
-                </h3>
-                <p className="service-summary">{s.summary}</p>
-                <ul className="service-list">
-                  {s.includes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <p className="service-fee">{s.fee}</p>
-                <Link prefetch={false} href={`/?service=${s.id}#consultation`} className="text-link">
-                  Enquire about {s.title.toLowerCase()}
-                </Link>
-              </article>
-            ))}
-          </div>
+          <ol className="service-sunlist">
+            {services.map((s, index) => {
+              const figure = serviceFigures[s.id];
+              return (
+                <li key={s.id} id={`service-${s.id}`} className={`service-row service-${s.id}`}>
+                  <article aria-labelledby={`service-title-${s.id}`}>
+                    <div className="service-row-head">
+                      <span className="service-num" data-numeric aria-hidden="true">
+                        {index + 1}
+                      </span>
+                      <p className="service-hour">
+                        <span className="visually-hidden">Typical brief time: </span>
+                        {figure.hour}
+                      </p>
+                    </div>
+                    <div className="service-row-body">
+                      <figure className="service-figure">
+                        <Picture
+                          name={figure.name}
+                          alt={figure.alt}
+                          sizes="(min-width: 48rem) 14rem, 7.5rem"
+                          layoutWidth={800}
+                        />
+                      </figure>
+                      <div className="service-copy">
+                        <h3 id={`service-title-${s.id}`} className="display-3">
+                          {s.title}
+                        </h3>
+                        <p className="service-summary">{s.summary}</p>
+                        <ul className="service-list">
+                          {s.includes.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                        <p className="service-fee">{s.fee}</p>
+                        <Link prefetch={false} href={`/?service=${s.id}#consultation`} className="text-link">
+                          Enquire about {s.title.toLowerCase()}
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </section>
 
